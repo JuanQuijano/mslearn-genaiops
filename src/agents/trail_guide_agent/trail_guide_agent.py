@@ -23,6 +23,6 @@ agent = project_client.agents.create_version(
     definition=PromptAgentDefinition(
         model=os.getenv("MODEL_NAME", "gpt-5.4-mini"),  # Use Global Standard model
         instructions=instructions,
-    ),
+    ), 
 )
 print(f"Agent created (id: {agent.id}, name: {agent.name}, version: {agent.version})")
