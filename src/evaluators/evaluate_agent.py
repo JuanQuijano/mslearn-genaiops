@@ -290,7 +290,7 @@ def retrieve_and_display_results(eval_object, run):
     Fetch per-item evaluator outputs, compute aggregate statistics, print a
     human-readable summary, and write the same summary to RESULTS_FILE.
 
-    Scores are on a 1-5 scale; a score >= 3 is considered a pass.
+    Scores are on a 1-5 scale; a score >= 4 is considered a pass.
 
     The written file is intended to be committed to the branch so the
     GitHub Actions workflow can read it without re-running the evaluation.
@@ -356,18 +356,18 @@ def retrieve_and_display_results(eval_object, run):
         f"  Total items  : {len(output_items)}",
         f"  Errored items: {len(errored_items)}",
         f"  Scored items : {len(scored_items)}",
-        "\nAverage Scores (1-5 scale, threshold: 3)",
+        "\nAverage Scores (1-5 scale, threshold: 4)",
     ]
 
     any_scores = False
-    pass_lines = ["\nPass Rates (score >= 3)"]
+    pass_lines = ["\nPass Rates (score >= 4)"]
 
     for key, label in metric_labels.items():
         values = scores[key]
         if values:
             any_scores = True
             avg  = sum(values) / len(values)
-            rate = sum(1 for v in values if v >= 3) / len(values) * 100
+            rate = sum(1 for v in values if v >= 4) / len(values) * 100
             lines.append(f"  {label}: {avg:.2f} (n={len(values)})")
             pass_lines.append(f"  {label}: {rate:.1f}%")
 
@@ -434,7 +434,7 @@ def main() -> None:
             f"\nTroubleshooting:\n"
             f"  - Verify AZURE_AI_PROJECT_ENDPOINT in .env file\n"
             f"  - Check Azure credentials: az login\n"
-            f"  - Ensure GPT-4.1 model is deployed and accessible\n"
+            f"  - Ensure gpt-5.4-mini model is deployed and accessible\n"
         )
         print(error_message)
         # Write the error to the results file so it's never left empty
